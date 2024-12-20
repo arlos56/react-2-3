@@ -1,0 +1,106 @@
+import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+
+// Header Component
+function Header() {
+  return (
+    <header>
+      <h1>Mi Sitio Web</h1>
+      <Menu />
+    </header>
+  );
+}
+
+// Menu Component
+function Menu() {
+  return (
+    <nav>
+      <ul>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/about">Acerca de</Link></li>
+        <li><Link to="/contact">Contacto</Link></li>
+      </ul>
+    </nav>
+  );
+}
+
+// Section Component
+function Section({ title, content }) {
+  return (
+    <section>
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </section>
+  );
+}
+
+// Footer Component
+function Footer() {
+  return (
+    <footer>
+      <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+    </footer>
+  );
+}
+
+// Form Component
+function ContactForm() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Mensaje enviado por ${formData.name}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Nombre:
+        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+      </label>
+      <label>
+        Mensaje:
+        <textarea name="message" value={formData.message} onChange={handleChange} required />
+      </label>
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}
+
+// App Component
+function App() {
+  return (
+    <Router>
+      <div>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Section title="Inicio" content="Bienvenido a nuestro sitio web." />} />
+            <Route path="/about" element={<Section title="Acerca de" content="Somos una empresa dedicada a..." />} />
+            <Route path="/contact" element={<>
+              <Section title="Contacto" content="Envíanos un mensaje usando el formulario." />
+              <ContactForm />
+            </>} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
